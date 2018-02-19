@@ -48,6 +48,7 @@ public class UserMealsUtil {
                     )
                             .collect(Collectors.toList());
                 }).flatMap(List::stream)
+                .sorted(Comparator.comparing(UserMealWithExceed::getDateTime))
                 .collect(Collectors.toList());
     }
 }
