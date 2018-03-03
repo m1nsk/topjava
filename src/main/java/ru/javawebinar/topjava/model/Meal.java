@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.model;
 
+import ru.javawebinar.topjava.util.MyDateTimeFormatter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -50,6 +52,10 @@ public class Meal {
 
     public LocalDate getDate() {
         return dateTime.toLocalDate();
+    }
+
+    public String getFormatedDateTime() {
+        return dateTime.format(MyDateTimeFormatter.getMyDateTimeFormatter());
     }
 
     public LocalTime getTime() {

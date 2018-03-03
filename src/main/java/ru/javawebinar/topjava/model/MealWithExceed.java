@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.model;
 
+import ru.javawebinar.topjava.util.MyDateTimeFormatter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -44,7 +46,7 @@ public class MealWithExceed {
     }
 
     public String getFormatedDateTime() {
-        return dateTime.format(myDateTimeFormatter);
+        return dateTime.format(MyDateTimeFormatter.getMyDateTimeFormatter());
     }
 
     public String getDescription() {
