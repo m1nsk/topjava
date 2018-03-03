@@ -3,8 +3,9 @@ package ru.javawebinar.topjava.service;
 import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.dao.MealDaoImpl;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.MealWithExceed;
 
-import java.util.Map;
+import java.util.List;
 
 public class MealServiceImpl implements MealService{
     MealDao mealDao;
@@ -23,22 +24,28 @@ public class MealServiceImpl implements MealService{
     }
 
     @Override
-    public void removeMeal(int id) {
-        mealDao.removeMeal(id);
+    public void removeMeal(Meal meal) {
+        mealDao.removeMeal(meal);
     }
 
     @Override
-    public void updateMeal(int id, Meal meal) {
-        mealDao.updateMeal(id, meal);
+    public void updateMeal(Meal meal) {
+        mealDao.updateMeal(meal);
     }
 
     @Override
     public Meal getMealById(int id) {
-        mealDao.getMealById(id);
+        return mealDao.getMealById(id);
     }
 
     @Override
-    public Map<Integer, Meal> mealList() {
-        mealDao.mealList();
+    public List<Meal> mealList() {
+        return mealDao.mealList();
     }
+
+    @Override
+    public List<MealWithExceed> mealWithExceedList() {
+        return mealDao.mealWithExceed();
+    }
+
 }
