@@ -4,7 +4,9 @@ import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.dao.MealDaoImpl;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public class MealServiceImpl implements MealService{
@@ -20,12 +22,12 @@ public class MealServiceImpl implements MealService{
 
     @Override
     public void addMeal(Meal meal) {
-        mealDao.addMeal(meal);
+        mealDao.create(meal);
     }
 
     @Override
-    public void removeMeal(Meal meal) {
-        mealDao.removeMeal(meal);
+    public void removeMeal(int id) {
+        mealDao.removeMeal(id);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MealServiceImpl implements MealService{
 
     @Override
     public List<MealWithExceed> mealWithExceedList() {
-        return mealDao.mealWithExceed();
+        return MealsUtil.getFilteredWithExceeded(mealDao.mealList(), LocalTime.MIN, LocalTime.MAX, 2000);
     }
 
 }

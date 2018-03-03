@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface MealDao {
-    void addMeal(Meal meal);
-    void removeMeal(Meal meal);
+    Meal create(Meal meal);
+    void removeMeal(int id);
     void updateMeal(Meal meal);
     Meal getMealById(int id);
     List<Meal> mealList();
-    List<MealWithExceed> mealWithExceed();
 }

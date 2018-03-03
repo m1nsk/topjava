@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 public class MealWithExceed {
     private final LocalDateTime dateTime;
 
+    private final DateTimeFormatter myDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     private final String description;
 
     private final int calories;
@@ -42,7 +44,7 @@ public class MealWithExceed {
     }
 
     public String getFormatedDateTime() {
-        return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return dateTime.format(myDateTimeFormatter);
     }
 
     public String getDescription() {

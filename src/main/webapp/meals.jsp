@@ -28,17 +28,12 @@
 <table class="table-bordered" style="margin: auto 0px">
     <!-- here should go some titles... -->
     <tr>
-        <th>ID</th>
         <th>date time</th>
         <th>description</th>
         <th>calories</th>
-        <th>exceed</th>
     </tr>
     <c:forEach items="${meals}" var="meal">
-        <tr>
-            <td>
-                <c:out value="${meal.id}" />
-            </td>
+        <tr class="${meal.exceed eq true ? "green" : "red"}">
             <td>
                 <c:out value="${meal.formatedDateTime}" />
             </td>
@@ -47,18 +42,6 @@
             </td>
             <td>
                 <c:out value="${meal.calories}" />
-            </td>
-            <td>
-                <c:if test="${meal.exceed eq true}">
-                    <p class="green">
-                        <c:out value="${meal.exceed}" />
-                    </p>
-                </c:if>
-                <c:if test="${meal.exceed ne true}">
-                    <p class="red">
-                        <c:out value="${meal.exceed}" />
-                    </p>
-                </c:if>
             </td>
         </tr>
     </c:forEach>
