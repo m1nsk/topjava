@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal implements Cloneable {
-    private static volatile int idCounter = 0;
 
     private final LocalDateTime dateTime;
 
@@ -13,18 +12,21 @@ public class Meal implements Cloneable {
 
     private final int calories;
 
-    private final int id;
+    private int id;
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
-        this.id = idCounter;
-        idCounter++;
+        this.id = -1;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDateTime getDateTime() {

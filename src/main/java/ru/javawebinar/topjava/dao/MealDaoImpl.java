@@ -9,25 +9,18 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealDaoImpl implements MealDao {
-    private static List<Meal> mealData;
+    AtomicInteger id_counter = new AtomicInteger(0);
+    private static List<Meal> mealData = new ArrayList<>();
     private static final Logger log = getLogger(MealDaoImpl.class);
-    static {
-        mealData = Arrays.asList(
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
-        );
-    }
 
     @Override
     public void addMeal(Meal meal) {
+        meal.setId(id_counter.incrementAndGet());
         mealData.add(meal);
     }
 
@@ -44,7 +37,7 @@ public class MealDaoImpl implements MealDao {
     @Override
     public void updateMeal(Meal meal) {
         for(int i = 0; i < mealData.size(); i++){
-            if (mealData.get(i).equals(meal)) {
+            if (mealData.get(i).getId() == meal.getId()) {
                 mealData.set(i, meal);
                 break;
             }
