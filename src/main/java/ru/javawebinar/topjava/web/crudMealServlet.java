@@ -31,14 +31,14 @@ public class crudMealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if (action.equalsIgnoreCase("delete")){
-            int userId = Integer.parseInt(request.getParameter("mealId"));
-            mealService.removeMeal(userId);
+            int id = parseID(request.getParameter("id"));
+            mealService.removeMeal(id);
             forward = LIST_USER;
             request.setAttribute("mealList", mealService.mealWithExceedList());
         } else if (action.equalsIgnoreCase("edit")){
             forward = INSERT_OR_EDIT;
-            int mealId = Integer.parseInt(request.getParameter("mealId"));
-            Meal mealItem = mealService.getMealById(mealId);
+            int id = parseID(request.getParameter("id"));
+            Meal mealItem = mealService.getMealById(id);
             request.setAttribute("mealItem", mealItem);
         } else if (action.equalsIgnoreCase("mealList")){
             forward = LIST_USER;
@@ -58,12 +58,6 @@ public class crudMealServlet extends HttpServlet {
         String calories = request.getParameter("calories");
         String dateTime = request.getParameter("dateTime");
         Map<String, String> errors = new HashMap<>();
-        int parseId = -1;
-        try{
-            parseId = Integer.parseInt(id);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
         int parseCalories = MealValidator.validateCalories(calories, errors);
         LocalDateTime localDateTime = MealValidator.validateDateTime(dateTime, errors);
         description = MealValidator.validateDescription(description, errors);
@@ -71,9 +65,11 @@ public class crudMealServlet extends HttpServlet {
         if (errors.isEmpty()) {
 
             Meal newMeal = new Meal(localDateTime, description, parseCalories);
-            if(parseId < 0) {
+            if(id == null) {
                 mealService.addMeal(newMeal);
             } else {
+                int parseId = parseID(id);
+                newMeal.setId(parseId);
                 mealService.updateMeal(newMeal);
             }
             request.setAttribute("mealList", mealService.mealWithExceedList());
@@ -82,5 +78,15 @@ public class crudMealServlet extends HttpServlet {
             request.setAttribute("errorItem", errors);
             request.getRequestDispatcher(INSERT_OR_EDIT).forward(request, response);
         }
+    }
+
+    private int parseID(String id) throws ServletException {
+        int parseId;
+        try{
+                parseId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            throw new ServletException("Wrong meal id");
+        }
+        return parseId;
     }
 }

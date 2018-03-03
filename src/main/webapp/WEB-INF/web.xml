@@ -27,16 +27,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>mealByIdServlet</servlet-name>
-        <servlet-class>ru.javawebinar.topjava.web.MealByIdServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>mealByIdServlet</servlet-name>
-        <url-pattern>/meal/get</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>crudMealServlet</servlet-name>
         <servlet-class>ru.javawebinar.topjava.web.crudMealServlet</servlet-class>
         <load-on-startup>0</load-on-startup>

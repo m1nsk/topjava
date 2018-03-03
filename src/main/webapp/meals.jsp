@@ -31,9 +31,11 @@
         <th>date time</th>
         <th>description</th>
         <th>calories</th>
+        <th>delete</th>
+        <th>edit</th>
     </tr>
     <c:forEach items="${meals}" var="meal">
-        <tr class="${meal.exceed eq true ? "green" : "red"}">
+        <tr class="${meal.exceed ? "green" : "red"}">
             <td>
                 <c:out value="${meal.formatedDateTime}" />
             </td>
@@ -42,6 +44,20 @@
             </td>
             <td>
                 <c:out value="${meal.calories}" />
+            </td>
+            <td>
+                <form action="crud" method="get">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" value=${meal.id}>
+                    <input type="submit" value="edit"/>
+                </form>
+            </td>
+            <td>
+                <form action="crud" method="get">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" value="${meal.id}">
+                    <input type="submit" value="delete"/>
+                </form>
             </td>
         </tr>
     </c:forEach>

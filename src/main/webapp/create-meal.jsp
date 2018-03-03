@@ -5,10 +5,14 @@
     <title>Meal create</title>
 </head>
 <body>
-<h3><a href="index.html">Home</a></h3>
-<h2>Add new meal</h2>
+
 <c:set var="mealItem" value="${requestScope.mealItem}" />
 <c:set var="errorItem" value="${requestScope.errorItem}" />
+
+<h3><a href="index.html">Home</a></h3>
+
+<h2><c:out value='${requestScope.containsKey("mealItem") ? "Add new meal item" : "Edit meal item"}'></c:out></h2>
+
 <form action="${requestScope['javax.servlet.forward.request_uri']}" method="post" name="frmAddMeal">
     <c:if test='${requestScope.containsKey("mealItem")}'>
         <p>id: <input type = "text" name = "id" readonly="readonly" value="${mealItem.id}"/></p>
