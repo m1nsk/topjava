@@ -8,8 +8,8 @@ import java.util.Map;
 
 public interface MealDao {
     Meal create(Meal meal);
-    void removeMeal(int id);
-    void updateMeal(Meal meal);
-    Meal getMealById(int id);
-    List<Meal> mealList();
+    void remove(int id);
+    void update(Meal meal);
+    Meal getById(int id);
+    List<Meal> list();
 }

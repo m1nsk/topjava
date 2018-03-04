@@ -6,10 +6,10 @@ import ru.javawebinar.topjava.model.MealWithExceed;
 import java.util.List;
 
 public interface MealService {
-    void addMeal(Meal meal);
-    void removeMeal(int id);
-    void updateMeal(Meal meal);
-    Meal getMealById(int id);
-    List<Meal> mealList();
-    List<MealWithExceed> mealWithExceedList();
+    void add(Meal meal);
+    void remove(int id);
+    void update(Meal meal);
+    Meal getById(int id);
+    List<Meal> list();
+    List<MealWithExceed> withExceedList();
 }

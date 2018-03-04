@@ -19,32 +19,38 @@ import java.util.Map;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
-public class crudMealServlet extends HttpServlet {
+public class СrudMealServlet extends HttpServlet {
     private MealService mealService = new MealServiceImpl();
-    private static String INSERT_OR_EDIT = "/create-meal.jsp";
+    private static String INSERT_OR_EDIT = "/createMeal.jsp";
     private static String LIST_USER = "/meals.jsp";
 
-    private static final Logger log = getLogger(MealByIdServlet.class);
+    private static final Logger log = getLogger(СrudMealServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
         String action = request.getParameter("action");
+        int id = -1;
 
-        if (action.equalsIgnoreCase("delete")){
-            int id = parseID(request.getParameter("id"));
-            mealService.removeMeal(id);
-            forward = LIST_USER;
-            request.setAttribute("mealList", mealService.mealWithExceedList());
-        } else if (action.equalsIgnoreCase("edit")){
-            forward = INSERT_OR_EDIT;
-            int id = parseID(request.getParameter("id"));
-            Meal mealItem = mealService.getMealById(id);
-            request.setAttribute("mealItem", mealItem);
-        } else if (action.equalsIgnoreCase("mealList")){
-            forward = LIST_USER;
-            request.setAttribute("mealList", mealService.mealWithExceedList());
-        } else {
-            forward = INSERT_OR_EDIT;
+        switch (action.toLowerCase()){
+            case "delete":
+                id = parseID(request.getParameter("id"));
+                mealService.remove(id);
+                forward = LIST_USER;
+                request.setAttribute("mealList", mealService.withExceedList());
+                break;
+            case "edit":
+                forward = INSERT_OR_EDIT;
+                id = parseID(request.getParameter("id"));
+                Meal mealItem = mealService.getById(id);
+                request.setAttribute("mealItem", mealItem);
+                break;
+            case "list":
+                forward = LIST_USER;
+                request.setAttribute("mealList", mealService.withExceedList());
+                break;
+            default:
+                forward = INSERT_OR_EDIT;
+                break;
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
@@ -66,13 +72,13 @@ public class crudMealServlet extends HttpServlet {
 
             Meal newMeal = new Meal(localDateTime, description, parseCalories);
             if(id == null) {
-                mealService.addMeal(newMeal);
+                mealService.add(newMeal);
             } else {
                 int parseId = parseID(id);
                 newMeal.setId(parseId);
-                mealService.updateMeal(newMeal);
+                mealService.update(newMeal);
             }
-            request.setAttribute("mealList", mealService.mealWithExceedList());
+            request.setAttribute("mealList", mealService.withExceedList());
             request.getRequestDispatcher(LIST_USER).forward(request, response);
         } else {
             request.setAttribute("errorItem", errors);
@@ -83,7 +89,7 @@ public class crudMealServlet extends HttpServlet {
     private int parseID(String id) throws ServletException {
         int parseId;
         try{
-                parseId = Integer.parseInt(id);
+            parseId = Integer.parseInt(id);
         } catch (NumberFormatException e) {
             throw new ServletException("Wrong meal id");
         }

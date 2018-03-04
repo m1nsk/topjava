@@ -24,9 +24,7 @@ public class Meal {
     }
 
     public Meal(LocalDateTime dateTime, String description, int calories, int id) {
-        this.dateTime = dateTime;
-        this.description = description;
-        this.calories = calories;
+        this(dateTime, description, calories);
         this.id = id;
     }
 
@@ -34,8 +32,9 @@ public class Meal {
         return id;
     }
 
-    public void setId(int id) {
+    public Meal setId(int id) {
         this.id = id;
+        return this;
     }
 
     public LocalDateTime getDateTime() {
@@ -52,10 +51,6 @@ public class Meal {
 
     public LocalDate getDate() {
         return dateTime.toLocalDate();
-    }
-
-    public String getFormatedDateTime() {
-        return dateTime.format(MyDateTimeFormatter.getMyDateTimeFormatter());
     }
 
     public LocalTime getTime() {

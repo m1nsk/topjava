@@ -21,33 +21,33 @@ public class MealServiceImpl implements MealService{
     }
 
     @Override
-    public void addMeal(Meal meal) {
+    public void add(Meal meal) {
         mealDao.create(meal);
     }
 
     @Override
-    public void removeMeal(int id) {
-        mealDao.removeMeal(id);
+    public void remove(int id) {
+        mealDao.remove(id);
     }
 
     @Override
-    public void updateMeal(Meal meal) {
-        mealDao.updateMeal(meal);
+    public void update(Meal meal) {
+        mealDao.update(meal);
     }
 
     @Override
-    public Meal getMealById(int id) {
-        return mealDao.getMealById(id);
+    public Meal getById(int id) {
+        return mealDao.getById(id);
     }
 
     @Override
-    public List<Meal> mealList() {
-        return mealDao.mealList();
+    public List<Meal> list() {
+        return mealDao.list();
     }
 
     @Override
-    public List<MealWithExceed> mealWithExceedList() {
-        return MealsUtil.getFilteredWithExceeded(mealDao.mealList(), LocalTime.MIN, LocalTime.MAX, 2000);
+    public List<MealWithExceed> withExceedList() {
+        return MealsUtil.getFilteredWithExceeded(mealDao.list(), LocalTime.MIN, LocalTime.MAX, 2000);
     }
 
 }

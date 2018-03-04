@@ -2,42 +2,31 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
+
 <head>
-    <title>Simple jsp page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style type="text/css">
-        td {
-            padding: 10px;
-        }
-        th {
-            padding: 10px;
-        }
-        .red {
-            color: red;
-        }
-        .green {
-            color: green;
-        }
-    </style>
+    <c:import url="head.html"/>
 </head>
 
 <body>
-<h1>Meals</h1>
+<c:import url="header.html" />
+<jsp:useBean id="MealsUtil" class="ru.javawebinar.topjava.util.MealsUtil"/>
 <c:set var="meals" value="${requestScope.mealList}" />
 
+<h1>Meals</h1>
+<li><a href="crud?action=create">Create</a></li>
 <table class="table-bordered" style="margin: auto 0px">
-    <!-- here should go some titles... -->
     <tr>
         <th>date time</th>
         <th>description</th>
         <th>calories</th>
-        <th>delete</th>
-        <th>edit</th>
+        <th></th>
+        <th></th>
     </tr>
     <c:forEach items="${meals}" var="meal">
-        <tr class="${meal.exceed ? "green" : "red"}">
+        <tr class="${meal.exceed ? "red" : "green"}">
             <td>
-                <c:out value="${meal.formatedDateTime}" />
+                <c:set var="mFormatted" value='${MealsUtil.getFormatedDateTime(meal.dateTime)}' />
+                <c:out value='${mFormatted}'/>
             </td>
             <td>
                 <c:out value="${meal.description}" />
@@ -45,20 +34,8 @@
             <td>
                 <c:out value="${meal.calories}" />
             </td>
-            <td>
-                <form action="crud" method="get">
-                    <input type="hidden" name="action" value="edit">
-                    <input type="hidden" name="id" value=${meal.id}>
-                    <input type="submit" value="edit"/>
-                </form>
-            </td>
-            <td>
-                <form action="crud" method="get">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" value="${meal.id}">
-                    <input type="submit" value="delete"/>
-                </form>
-            </td>
+            <td><a href="crud?action=edit&id=${meal.id}">Edit</a></td>
+            <td><a href="crud?action=delete&id=${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>

@@ -24,7 +24,7 @@ public class MealDaoImpl implements MealDao {
                 new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
                 new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
-        mealData.forEach(item -> this.create(item));
+        mealData.forEach(this::create);
     }
 
     @Override
@@ -35,30 +35,28 @@ public class MealDaoImpl implements MealDao {
     }
 
     @Override
-    public void removeMeal(int id) {
+    public void remove(int id) {
         mealData.remove(id);
     }
 
     @Override
-    public void updateMeal(Meal mealItem) {
+    public void update(Meal mealItem) {
         mealData.put(mealItem.getId(), mealItem);
     }
 
     @Override
-    public Meal getMealById(int id) {
-        if (mealData.containsKey(id)) {
-            Meal loadedMeal = mealData.get(id);
+    public Meal getById(int id) {
+        Meal loadedMeal = mealData.get(id);
+        if (loadedMeal != null)
             return new Meal(loadedMeal.getDateTime(), loadedMeal.getDescription(),
                     loadedMeal.getCalories(), loadedMeal.getId());
-        }
         return null;
     }
 
     @Override
-    public List<Meal> mealList() {
+    public List<Meal> list() {
         List<Meal> resultMeal = new ArrayList<>();
-        for(Meal aMeal: mealData.values()) {
-            Meal loadedMeal = aMeal;
+        for(Meal loadedMeal: mealData.values()) {
             resultMeal.add(new Meal(loadedMeal.getDateTime(), loadedMeal.getDescription(),
                     loadedMeal.getCalories(), loadedMeal.getId()));
         }

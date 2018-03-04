@@ -17,23 +17,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>mealListServlet</servlet-name>
-        <servlet-class>ru.javawebinar.topjava.web.MealServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>mealListServlet</servlet-name>
-        <url-pattern>/meals</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>crudMealServlet</servlet-name>
-        <servlet-class>ru.javawebinar.topjava.web.crudMealServlet</servlet-class>
+        <servlet-class>ru.javawebinar.topjava.web.СrudMealServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>crudMealServlet</servlet-name>
         <url-pattern>/crud</url-pattern>
     </servlet-mapping>
-
 </web-app>
