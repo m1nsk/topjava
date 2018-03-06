@@ -13,6 +13,7 @@
 <h2><c:out value='${requestScope.containsKey("mealItem") ? "Add new meal item" : "Edit meal item"}'></c:out></h2>
 
 <form action="${requestScope['javax.servlet.forward.request_uri']}" method="post" name="frmAddMeal">
+    <input type="text" name="id" value="${mealItem.id}" hidden/>
     <p>Description: <input type="text" name="description" value="${mealItem.description}"/></p>
     <c:if test="${errorItem.containsKey('description')}">
         <p style="color: red"><c:out value="error ${errorItem.description}"/></p>
