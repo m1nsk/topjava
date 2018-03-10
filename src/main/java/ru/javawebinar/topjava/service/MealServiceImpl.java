@@ -19,12 +19,9 @@ public class MealServiceImpl implements MealService {
 
     private MealRepository repository;
 
-    private UserRepository userRepository;
-
     @Autowired
-    public MealServiceImpl(MealRepository repository, UserRepository userRepository) {
+    public MealServiceImpl(MealRepository repository) {
         this.repository = repository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -53,7 +50,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public List<MealWithExceed> getAllMealWithExceed(int userId) {
-        return MealsUtil.getWithExceeded(getAll(userId), userRepository.get(userId).getCaloriesPerDay());
+    public List<MealWithExceed> getAllMealWithExceed(int userId, int calories) {
+        return MealsUtil.getWithExceeded(getAll(userId), calories);
     }
 }

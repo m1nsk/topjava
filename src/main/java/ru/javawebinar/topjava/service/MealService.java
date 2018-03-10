@@ -17,5 +17,5 @@ public interface MealService {
 
     List<Meal> getAll(int userId);
 
-    List<MealWithExceed> getAllMealWithExceed(int userId);
+    List<MealWithExceed> getAllMealWithExceed(int userId, int calories);
 }
