@@ -19,6 +19,7 @@
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
+    <jsp:include page="filterForm.jsp"></jsp:include>
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
