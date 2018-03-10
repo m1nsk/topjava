@@ -40,7 +40,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
             return user;
         }
         // treat case: update, but absent in storage
-        return repository.computeIfPresent(user.getId(), (id, oldMeal) -> user);
+        return repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
 
     }
 
