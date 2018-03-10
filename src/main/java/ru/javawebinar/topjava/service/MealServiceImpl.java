@@ -1,18 +1,22 @@
 package ru.javawebinar.topjava.service;
 
+import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.to.Meal;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 public class MealServiceImpl implements MealService {
 
     private MealRepository repository;
+
+    private UserRepository userRepository;
 
     public MealServiceImpl(MealRepository repository) {
         this.repository = repository;
@@ -41,5 +45,10 @@ public class MealServiceImpl implements MealService {
     @Override
     public List<Meal> getAll(int userId) {
         return new ArrayList<>(repository.getAll(userId));
+    }
+
+    @Override
+    public List<MealWithExceed> getAllMealWithExceed(int userId) {
+        return MealsUtil.getWithExceeded(getAll(userId), userRepository.get(userId).getCaloriesPerDay());
     }
 }

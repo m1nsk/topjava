@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.to.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -15,4 +16,6 @@ public interface MealService {
     void update(Meal meal, int userId);
 
     List<Meal> getAll(int userId);
+
+    List<MealWithExceed> getAllMealWithExceed(int userId);
 }
