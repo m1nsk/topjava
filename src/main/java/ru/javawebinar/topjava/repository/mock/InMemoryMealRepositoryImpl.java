@@ -22,13 +22,16 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     {
         UsersUtil.USERS.forEach(n ->
-                MealsUtil.MEALS.forEach(m -> save(m, n.getId())));
+                MealsUtil.MEALS.forEach(m -> save(
+                        new Meal(m.getDateTime(), m.getDescription(), m.getCalories()),
+                        n.getId()
+                )));
     }
 
     @Override
     public Meal save(final Meal meal, int userId) {
-        meal.setUserId(userId);
         if (meal.isNew()) {
+            meal.setUserId(userId);
             meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), meal);
             return meal;
