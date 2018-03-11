@@ -19,8 +19,10 @@ public interface MealService {
 
     List<Meal> getAll(int userId);
 
+    List<Meal> getFilteredByDate(int userId, LocalDate startDate, LocalDate endDate);
+
     List<MealWithExceed> getAllMealWithExceed(int userId, int calories);
-    List<MealWithExceed> getAllMealWithExceedFiltered(int userId, int calories,
-                                              LocalDate startDate, LocalDate endDate,
-                                              LocalTime startTime, LocalTime endTime);
+    List<MealWithExceed> getMealWithExceedFiltered(int userId, int calories,
+                                                   LocalDate startDate, LocalDate endDate,
+                                                   LocalTime startTime, LocalTime endTime);
 }

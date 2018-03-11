@@ -10,7 +10,6 @@ import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Controller
@@ -44,7 +43,7 @@ public class MealRestController {
         LocalTime eTime = DateTimeUtil.tryParseTime(endTime);
         LocalDate sDate = DateTimeUtil.tryParseDate(startDate);
         LocalDate eDate = DateTimeUtil.tryParseDate(endDate);
-        return service.getAllMealWithExceedFiltered(AuthorizedUser.id(),
+        return service.getMealWithExceedFiltered(AuthorizedUser.id(),
                 AuthorizedUser.getCaloriesPerDay(),
                 sDate == null ? LocalDate.MIN : sDate,
                 eDate == null ? LocalDate.MAX : eDate,

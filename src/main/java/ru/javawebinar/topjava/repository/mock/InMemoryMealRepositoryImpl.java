@@ -1,12 +1,16 @@
 package ru.javawebinar.topjava.repository.mock;
 
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.to.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.UsersUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
@@ -62,8 +66,13 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public Collection<Meal> getAll(int userId) {
+        return getFilteredByDate(userId, LocalDate.MIN, LocalDate.MAX);
+    }
+
+    @Override
+    public Collection<Meal> getFilteredByDate(int userId, LocalDate startDate, LocalDate endDate) {
         return repository.values().stream()
-                .filter(item -> item.getUserId().equals(userId))
+                .filter(item -> item.getUserId().equals(userId) && DateTimeUtil.isBetween(item.getDate(), startDate, endDate))
                 .sorted(Comparator.comparing(Meal::getDateTime).thenComparingInt(Meal::getId))
                 .collect(Collectors.toList());
     }

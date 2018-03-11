@@ -7,10 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -25,6 +22,10 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
     );
+    {
+        long seed = System.nanoTime();
+        Collections.shuffle(MEALS, new Random(seed));
+    }
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
@@ -53,12 +54,5 @@ public class MealsUtil {
         return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
     }
 
-    public static List<MealWithExceed> getFilteredWithDateWithExceeded(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
-        return getFilteredWithExceeded(meals, caloriesPerDay, meal ->
-                DateTimeUtil.isBetweenDays(meal.getDate(),
-                        startDate,endDate)
-                        && DateTimeUtil.isBetween(meal.getTime(),
-                        startTime,endTime));
-    }
 }
 
