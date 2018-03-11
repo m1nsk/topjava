@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.repository;
 
-import ru.javawebinar.topjava.to.Meal;
+import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDate;
 import java.util.Collection;

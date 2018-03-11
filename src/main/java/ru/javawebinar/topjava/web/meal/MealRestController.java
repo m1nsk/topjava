@@ -3,9 +3,9 @@ package ru.javawebinar.topjava.web.meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.AuthorizedUser;
-import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.service.MealService;
-import ru.javawebinar.topjava.to.Meal;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.time.LocalDate;
@@ -19,6 +19,7 @@ public class MealRestController {
     private MealService service;
 
     public Meal create(Meal meal){
+        meal.setUserId(AuthorizedUser.id());
         return service.create(meal, AuthorizedUser.id());
     }
 

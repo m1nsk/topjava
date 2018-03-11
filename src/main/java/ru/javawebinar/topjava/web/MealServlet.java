@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.AuthorizedUser;
-import ru.javawebinar.topjava.to.Meal;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
@@ -23,7 +23,6 @@ public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
     private MealRestController mealRestController;
-    private AdminRestController adminRestController;
     ConfigurableApplicationContext context;
 
     @Override
@@ -32,7 +31,6 @@ public class MealServlet extends HttpServlet {
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
             context = appCtx;
             mealRestController = appCtx.getBean(MealRestController.class);
-            adminRestController = appCtx.getBean(AdminRestController.class);
         }
     }
 
@@ -46,10 +44,9 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
-        String userId = request.getParameter("userId");
 
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
-                id.isEmpty() ? null : Integer.valueOf(userId),
+                null,
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
@@ -62,16 +59,6 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        String userId = request.getParameter("user");
-        Integer uId;
-        try {
-            uId = Integer.parseInt(userId);
-        } catch (NumberFormatException e){
-            uId = null;
-        }
-        if (uId != null) {
-            AuthorizedUser.setId(uId);
-        }
 
         switch (action == null ? "all" : action) {
             case "delete":
@@ -96,8 +83,6 @@ public class MealServlet extends HttpServlet {
                 String startDate = request.getParameter("startDate");
                 String endDate = request.getParameter("endDate");
                 request.setAttribute("meals", mealRestController.getListFiltered(startTime, endTime, startDate, endDate));
-                request.setAttribute("users", adminRestController.getAll());
-                request.setAttribute("user", AuthorizedUser.id());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }

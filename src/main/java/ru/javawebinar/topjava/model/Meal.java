@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.to;
+package ru.javawebinar.topjava.model;
 
 import ru.javawebinar.topjava.model.AbstractBaseEntity;
 
@@ -48,10 +48,6 @@ public class Meal extends AbstractBaseEntity {
         return dateTime.toLocalTime();
     }
 
-    public boolean isNew() {
-        return id == null;
-    }
-
     public Integer getUserId() {
         return userId;
     }
@@ -63,7 +59,6 @@ public class Meal extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "Meal{" +
-                "id=" + id +
                 ", userId=" + userId +
                 ", dateTime=" + dateTime +
                 ", description='" + description + '\'' +

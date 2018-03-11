@@ -19,7 +19,6 @@
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
-    <jsp:include page="authForm.jsp"></jsp:include>
     <jsp:include page="filterForm.jsp"></jsp:include>
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
@@ -35,7 +34,7 @@
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
             <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
                 <td>
                         <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
