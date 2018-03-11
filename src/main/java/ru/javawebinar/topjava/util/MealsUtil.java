@@ -54,7 +54,11 @@ public class MealsUtil {
     }
 
     public static List<MealWithExceed> getFilteredWithDateWithExceeded(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
-        return getFilteredWithExceeded(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenDays(meal.getDate(), startDate, endDate) && DateTimeUtil.isBetween(meal.getTime(), startTime, endTime));
+        return getFilteredWithExceeded(meals, caloriesPerDay, meal ->
+                DateTimeUtil.isBetweenDays(meal.getDate(),
+                        startDate,endDate)
+                        && DateTimeUtil.isBetween(meal.getTime(),
+                        startTime,endTime));
     }
 }
 

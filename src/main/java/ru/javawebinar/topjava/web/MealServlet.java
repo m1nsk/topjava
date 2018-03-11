@@ -4,6 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.AuthorizedUser;
+import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.service.UserService;
+import ru.javawebinar.topjava.service.UserServiceImpl;
 import ru.javawebinar.topjava.to.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
@@ -16,21 +20,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
     private MealRestController mealRestController;
+    private UserService userService;
+    ConfigurableApplicationContext context;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+            context = appCtx;
             mealRestController = appCtx.getBean(MealRestController.class);
+            userService = appCtx.getBean(UserService.class);
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        context.close();
     }
 
     @Override
@@ -53,6 +69,16 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        String userId = request.getParameter("user");
+        Integer uId;
+        try {
+            uId = Integer.parseInt(userId);
+        } catch (NumberFormatException e){
+            uId = null;
+        }
+        if (uId != null) {
+            AuthorizedUser.setId(uId);
+        }
 
         switch (action == null ? "all" : action) {
             case "delete":
@@ -76,12 +102,9 @@ public class MealServlet extends HttpServlet {
                 String endTime = request.getParameter("endTime");
                 String startDate = request.getParameter("startDate");
                 String endDate = request.getParameter("endDate");
-                if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty())
-                    request.setAttribute("meals",
-                            mealRestController.getList());
-                else {
-                    request.setAttribute("meals", mealRestController.getListFiltered(startTime, endTime, startDate, endDate));
-                }
+                request.setAttribute("meals", mealRestController.getListFiltered(startTime, endTime, startDate, endDate));
+                request.setAttribute("users", userService.getAll());
+                request.setAttribute("user", AuthorizedUser.id());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
