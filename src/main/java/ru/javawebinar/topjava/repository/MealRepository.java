@@ -1,10 +1,8 @@
 package ru.javawebinar.topjava.repository;
 
-import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.to.Meal;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Collection;
 
 public interface MealRepository {
