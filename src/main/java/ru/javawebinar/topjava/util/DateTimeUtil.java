@@ -9,7 +9,7 @@ import java.time.format.DateTimeParseException;
 public class DateTimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public static <T extends Comparable> boolean isBetween(T lt, T startDate, T endDate) {
+    public static <T extends Comparable<? super T>> boolean isBetween(T lt, T startDate, T endDate) {
         return lt.compareTo(startDate) >= 0 && lt.compareTo(endDate) <= 0;
     }
 
@@ -21,9 +21,7 @@ public class DateTimeUtil {
     public static LocalTime tryParseTime(String value) {
         try {
             return LocalTime.parse(value);
-        } catch (DateTimeParseException e) {
-            return null;
-        } catch (NullPointerException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
             return null;
         }
     }
@@ -31,9 +29,7 @@ public class DateTimeUtil {
     public static LocalDate tryParseDate(String value) {
         try {
             return LocalDate.parse(value);
-        } catch (DateTimeParseException e) {
-            return null;
-        } catch (NullPointerException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
             return null;
         }
     }

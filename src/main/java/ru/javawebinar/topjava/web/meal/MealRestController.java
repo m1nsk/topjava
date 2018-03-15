@@ -19,7 +19,6 @@ public class MealRestController {
     private MealService service;
 
     public Meal create(Meal meal){
-        meal.setUserId(AuthorizedUser.id());
         return service.create(meal, AuthorizedUser.id());
     }
 
