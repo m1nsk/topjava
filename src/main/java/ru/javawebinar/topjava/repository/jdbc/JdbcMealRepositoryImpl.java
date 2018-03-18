@@ -61,17 +61,20 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         MapSqlParameterSource map = new MapSqlParameterSource()
         .addValue("id", id)
         .addValue("user_id", userId);
-        return namedParameterJdbcTemplate.update("DELETE FROM meals WHERE id=:id and user_id=:user_id", map) != 0;
+        return namedParameterJdbcTemplate.update("DELETE FROM meals WHERE id=:id AND user_id=:user_id", map) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id=?", ROW_MAPPER, id);
+        MapSqlParameterSource map = new MapSqlParameterSource()
+            .addValue("id", id)
+            .addValue("user_id", userId);
+        List<Meal> meals = namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE id=:id AND user_id=:user_id", map, ROW_MAPPER);
         return DataAccessUtils.singleResult(meals);
     }
 
     @Override
-    public List<Meal> getAll(int userId) {Map<String, Object> param = new HashMap<>();
+    public List<Meal> getAll(int userId) {
         List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY id ASC, date_time ASC ", ROW_MAPPER, userId);
         return meals;
     }
