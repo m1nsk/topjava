@@ -12,7 +12,6 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -40,11 +39,11 @@ public class MealServiceTest {
         assertMatch(TEST_MEAL_1, getMeal);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void delete()  {
         service.delete(TEST_MEAL_ID_1, USER_ID);
-        Meal deletedMeal = service.get(TEST_MEAL_ID_1, USER_ID);
-        assertMatch(new HashSet<Meal>(), deletedMeal);
+        List<Meal> all = service.getAll(USER_ID);
+        assertMatch(all, TEST_MEAL_2, TEST_MEAL_3, TEST_MEAL_4);
     }
 
     @Test
@@ -64,7 +63,7 @@ public class MealServiceTest {
     @Test
     public void getAll() {
         List<Meal> all = service.getAll(USER_ID);
-        assertMatch(all, TEST_MEAL_1, TEST_MEAL_2);
+        assertMatch(all, TEST_MEAL_1, TEST_MEAL_2, TEST_MEAL_3, TEST_MEAL_4);
     }
 
     @Test
@@ -72,7 +71,7 @@ public class MealServiceTest {
         Meal updated = new Meal(TEST_MEAL_1);
         updated.setDescription("Updated description");
         updated.setCalories(777);
-        service.update(updated, TEST_MEAL_ID_1);
+        service.update(updated, USER_ID);
         assertMatch(service.get(TEST_MEAL_ID_1, USER_ID), updated);
     }
 

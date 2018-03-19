@@ -50,7 +50,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             Number newKey = insertMeal.executeAndReturnKey(map);
             meal.setId(newKey.intValue());
         } else if (namedParameterJdbcTemplate.update(
-                "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories WHERE id=:id", map) == 0) {
+                "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories WHERE id=:id AND user_id=:user_id", map) == 0) {
             return null;
         }
         return meal;
@@ -58,36 +58,29 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-        .addValue("id", id)
-        .addValue("user_id", userId);
-        return namedParameterJdbcTemplate.update("DELETE FROM meals WHERE id=:id AND user_id=:user_id", map) != 0;
+        return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-            .addValue("id", id)
-            .addValue("user_id", userId);
-        List<Meal> meals = namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE id=:id AND user_id=:user_id", map, ROW_MAPPER);
+        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id = ? AND user_id = ?",
+                new Object[]{id, userId}, ROW_MAPPER);
         return DataAccessUtils.singleResult(meals);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY id ASC, date_time ASC ", ROW_MAPPER, userId);
-        return meals;
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY id ASC", ROW_MAPPER, userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-        .addValue("user_id", userId)
-        .addValue("start_date", startDate)
-        .addValue("end_date", endDate);
-        List<Meal> meals = namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE user_id=:user_id and " +
-                "date_time BETWEEN :start_date and :end_date ORDER BY id ASC, date_time ASC "
-                , map, ROW_MAPPER);
-        return meals;
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? and " +
+                "date_time BETWEEN ? and ? ORDER BY id ASC",
+                new Object[]{
+                userId,
+                        startDate,
+                        endDate
+                }, ROW_MAPPER);
     }
 }
