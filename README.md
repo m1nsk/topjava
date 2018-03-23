@@ -11,6 +11,7 @@ Java Enterprise Online Project
 
     Старинная китайская поговорка
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c54ca6dc174b464391c6224a12affce8)](https://www.codacy.com/app/m1nsk/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=m1nsk/topjava&amp;utm_campaign=Badge_Grade)
 ## <a href="description.md">Описание и план проекта</a>
 ### <a href="http://topjava.herokuapp.com/" target=_blank>Демо разрабатываемого приложения</a>
 ### [Изменения проекта (Release Notes)](ReleaseNotes.md)
