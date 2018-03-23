@@ -9,7 +9,8 @@ Java Enterprise Online Project
     Но только когда вы начинаете делать это,
     вы начинаете понимать это
 
-    Старинная китайская поговорка[![Build Status](https://travis-ci.org/m1nsk/topjava.svg?branch=master)](https://travis-ci.org/m1nsk/topjava)
+    Старинная китайская поговорка
+[![Build Status](https://travis-ci.org/m1nsk/topjava.svg?branch=master)](https://travis-ci.org/m1nsk/topjava)    
 [![Dependency Status](https://www.versioneye.com/user/projects/5ab4705b0fb24f4485794292/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5ab4705b0fb24f4485794292)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c54ca6dc174b464391c6224a12affce8)](https://www.codacy.com/app/m1nsk/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=m1nsk/topjava&amp;utm_campaign=Badge_Grade)
 ## <a href="description.md">Описание и план проекта</a>
