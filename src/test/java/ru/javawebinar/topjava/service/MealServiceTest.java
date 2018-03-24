@@ -8,11 +8,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -34,17 +36,20 @@ public class MealServiceTest {
     private MealService service;
 
     @Test
+    @Transactional
     public void delete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
         assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
     @Test(expected = NotFoundException.class)
+    @Transactional
     public void deleteNotFound() throws Exception {
         service.delete(MEAL1_ID, 1);
     }
 
     @Test
+    @Transactional
     public void save() throws Exception {
         Meal created = getCreated();
         service.create(created, USER_ID);
@@ -52,17 +57,20 @@ public class MealServiceTest {
     }
 
     @Test
+    @Transactional
     public void get() throws Exception {
         Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
         assertMatch(actual, ADMIN_MEAL1);
     }
 
     @Test(expected = NotFoundException.class)
+    @Transactional
     public void getNotFound() throws Exception {
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
@@ -70,16 +78,21 @@ public class MealServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
+    @Transactional
     public void updateNotFound() throws Exception {
         service.update(MEAL1, ADMIN_ID);
     }
 
     @Test
+    @Transactional
     public void getAll() throws Exception {
+        List<Meal> result = service.getAll(USER_ID);
+        String n = result.get(0).getUser().toString();
         assertMatch(service.getAll(USER_ID), MEALS);
     }
 
     @Test
+    @Transactional
     public void getBetween() throws Exception {
         assertMatch(service.getBetweenDates(
                 LocalDate.of(2015, Month.MAY, 30),
