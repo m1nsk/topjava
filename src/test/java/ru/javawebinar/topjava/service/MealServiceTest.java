@@ -35,6 +35,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
@@ -61,21 +62,18 @@ public class MealServiceTest {
     private MealService service;
 
     @Test
-    @Transactional
     public void delete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
         assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
     @Test
-    @Transactional
     public void deleteNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
         service.delete(MEAL1_ID, 1);
     }
 
     @Test
-    @Transactional
     public void save() throws Exception {
         Meal created = getCreated();
         service.create(created, USER_ID);
@@ -83,21 +81,18 @@ public class MealServiceTest {
     }
 
     @Test
-    @Transactional
     public void get() throws Exception {
         Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
         assertMatch(actual, ADMIN_MEAL1);
     }
 
     @Test
-    @Transactional
     public void getNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
     @Test
-    @Transactional
     public void update() throws Exception {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
@@ -105,14 +100,12 @@ public class MealServiceTest {
     }
 
     @Test
-    @Transactional
     public void updateNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
         service.update(MEAL1, ADMIN_ID);
     }
 
     @Test
-    @Transactional
     public void getAll() throws Exception {
         List<Meal> result = service.getAll(USER_ID);
         String n = result.get(0).getUser().toString();
@@ -120,7 +113,6 @@ public class MealServiceTest {
     }
 
     @Test
-    @Transactional
     public void getBetween() throws Exception {
         assertMatch(service.getBetweenDates(
                 LocalDate.of(2015, Month.MAY, 30),
