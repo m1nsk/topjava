@@ -28,9 +28,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
             em.persist(meal);
             return meal;
         } else {
-            Query query = em.createQuery("update Meal m " +
-                    "set m.dateTime = :date_time, m.calories = :calories, m.description=:description" +
-                    " where m.id=:id and m.user=:user");
+            Query query = em.createNamedQuery(Meal.UPDATE);
             int result = query.setParameter("id", meal.getId())
                     .setParameter("user", refUser)
                     .setParameter("calories", meal.getCalories())
@@ -46,7 +44,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Transactional
     public boolean delete(int id, int userId) {
         User refUser = em.getReference(User.class, userId);
-        Query query = em.createQuery("DELETE FROM Meal m WHERE m.id=:id and m.user=:user");
+        Query query = em.createNamedQuery(Meal.DELETE);
         return query.setParameter("id", id)
                 .setParameter("user", refUser)
                 .executeUpdate() != 0;
@@ -55,7 +53,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Override
     public Meal get(int id, int userId) {
         User refUser = em.getReference(User.class, userId);
-        Query query = em.createQuery("select m from Meal m where m.id=:id and m.user=:user");
+        Query query = em.createNamedQuery(Meal.GET);
         List<Meal> result = query.setParameter("id", id)
                 .setParameter("user", refUser).getResultList();
         return DataAccessUtils.singleResult(result);
@@ -64,15 +62,14 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Override
     public List<Meal> getAll(int userId) {
         User refUser = em.getReference(User.class, userId);
-        Query query = em.createQuery("SELECT m from Meal m where m.user=:user order by m.dateTime desc ");
+        Query query = em.createNamedQuery(Meal.ALL_SORTED, Meal.class);
         return query.setParameter("user", refUser).getResultList();
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         User refUser = em.getReference(User.class, userId);
-        Query query = em.createQuery("SELECT m from Meal m " +
-                "where m.user=:user and m.dateTime between :start_date and :end_date order by m.dateTime desc ");
+        Query query = em.createNamedQuery(Meal.ALL_BETWEEN_SORTED, Meal.class);
         return query
                 .setParameter("user", refUser)
                 .setParameter("start_date", startDate)

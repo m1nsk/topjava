@@ -8,12 +8,28 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
+@NamedQueries({
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user=:user"),
+        @NamedQuery(name = Meal.GET, query = "select m from Meal m where m.id=:id and m.user=:user"),
+        @NamedQuery(name = Meal.UPDATE, query = "update Meal m " +
+                "set m.dateTime = :date_time, m.calories = :calories, m.description=:description" +
+                " where m.id=:id and m.user=:user"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m from Meal m where m.user=:user order by m.dateTime desc "),
+        @NamedQuery(name = Meal.ALL_BETWEEN_SORTED, query = "SELECT m from Meal m " +
+                "where m.user=:user and m.dateTime between :start_date and :end_date order by m.dateTime desc"),
+})
 @Entity
 @Table(name = "meals", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"user_id", "date_time"})
 })
 public class Meal extends AbstractBaseEntity {
+
+    public static final String DELETE = "Meal.delete";
+    public static final String GET = "Meal.get";
+    public static final String UPDATE = "Meal.update";
+    public static final String ALL_SORTED = "Meal.getAllSorted";
+    public static final String ALL_BETWEEN_SORTED = "Meal.getBetweenSorted";
+
     @Column(name = "date_time", nullable = false)
     @NotNull
     private LocalDateTime dateTime;
