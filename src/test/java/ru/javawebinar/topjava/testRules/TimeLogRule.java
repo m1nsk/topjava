@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class TimeLogRule implements MethodRule {
+public class TimeLogRule implements TestRule {
 
     private static final Logger log = getLogger(TimeLogRule.class);
 
@@ -25,17 +25,20 @@ public class TimeLogRule implements MethodRule {
     }
 
     @Override
-    public Statement apply(Statement base, FrameworkMethod method, Object target) {
+    public Statement apply(Statement base, Description description) {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
                 Instant start;
                 long duration;
                 start = Instant.now();
-                base.evaluate();
-                duration = ChronoUnit.MILLIS.between(start, Instant.now());
-                testLogTable.put(method.getName(), duration);
-                log.info("Interval: " + duration + " ms " + "Method name: "+ method.getName());
+                try {
+                    base.evaluate();
+                } finally {
+                    duration = ChronoUnit.MILLIS.between(start, Instant.now());
+                    testLogTable.put(description.getMethodName(), duration);
+                    log.info("Interval: " + duration + " ms " + "Method name: " + description.getMethodName());
+                }
             }
         };
     }
