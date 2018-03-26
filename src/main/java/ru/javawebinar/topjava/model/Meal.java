@@ -9,14 +9,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 @NamedQueries({
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user=:user"),
-        @NamedQuery(name = Meal.GET, query = "select m from Meal m where m.id=:id and m.user=:user"),
-        @NamedQuery(name = Meal.UPDATE, query = "update Meal m " +
-                "set m.dateTime = :date_time, m.calories = :calories, m.description=:description" +
-                " where m.id=:id and m.user=:user"),
-        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m from Meal m where m.user=:user order by m.dateTime desc "),
+//        @NamedQuery(name = Meal.UPDATE, query = "update Meal m " +
+//                "set m.dateTime = :date_time, m.calories = :calories, m.description=:description" +
+//                " where m.id=:id and m.user=:user"),
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user.id=:user_id"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m from Meal m where m.user.id=:user_id order by m.dateTime desc "),
         @NamedQuery(name = Meal.ALL_BETWEEN_SORTED, query = "SELECT m from Meal m " +
-                "where m.user=:user and m.dateTime between :start_date and :end_date order by m.dateTime desc"),
+                "where m.user.id=:user_id and m.dateTime between :start_date and :end_date order by m.dateTime desc"),
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {
@@ -25,8 +24,7 @@ import java.time.LocalTime;
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
-    public static final String GET = "Meal.get";
-    public static final String UPDATE = "Meal.update";
+    // public static final String UPDATE = "Meal.update";
     public static final String ALL_SORTED = "Meal.getAllSorted";
     public static final String ALL_BETWEEN_SORTED = "Meal.getBetweenSorted";
 
@@ -39,10 +37,9 @@ public class Meal extends AbstractBaseEntity {
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @NotNull
     private int calories;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

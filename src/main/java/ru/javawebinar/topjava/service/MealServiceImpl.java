@@ -23,7 +23,6 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    @Transactional
     public Meal get(int id, int userId) {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }
@@ -35,7 +34,6 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    @Transactional
     public List<Meal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         Assert.notNull(startDateTime, "startDateTime must not be null");
         Assert.notNull(endDateTime, "endDateTime  must not be null");
@@ -43,7 +41,6 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    @Transactional
     public List<Meal> getAll(int userId) {
         return repository.getAll(userId);
     }

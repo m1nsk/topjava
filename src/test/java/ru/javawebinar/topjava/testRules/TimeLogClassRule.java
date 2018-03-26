@@ -20,7 +20,7 @@ public class TimeLogClassRule implements TestRule {
 
     Map<String, Long> testLogTable;
 
-    public void setTestLogTable(Map<String, Long> testLogTable) {
+    public TimeLogClassRule(Map<String, Long> testLogTable) {
         this.testLogTable = testLogTable;
     }
 
@@ -31,7 +31,7 @@ public class TimeLogClassRule implements TestRule {
             public void evaluate() throws Throwable {
                 base.evaluate();
                 testLogTable.entrySet().forEach(entry -> {
-                    System.out.println("name: " + entry.getKey() + " time: " + entry.getValue());
+                    log.info("name: " + entry.getKey() + " time: " + entry.getValue());
                 });
                 testLogTable.clear();
             }
