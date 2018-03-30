@@ -59,6 +59,13 @@ public class UserServiceTest extends BaseServiceTest {
         assertMatch(user, USER);
     }
 
+    @Test
+    public void getFetch() throws Exception {
+        User user = service.getFetch(USER_ID);
+        System.out.println(user.getMeals());
+        assertMatch(user, USER);
+    }
+
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
         service.get(1);

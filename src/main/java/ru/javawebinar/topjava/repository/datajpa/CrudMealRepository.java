@@ -25,6 +25,4 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     List<Meal> findAllBetweenDates(@Param("start_date") LocalDateTime startDate,
                                    @Param("end_date") LocalDateTime endDate,
                                    @Param("user_id") int userId);
-
-
 }

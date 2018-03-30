@@ -1,8 +1,12 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -28,6 +32,11 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         return crudRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public User getFetch(int id) {
+        return crudRepository.getById(id);
     }
 
     @Override
