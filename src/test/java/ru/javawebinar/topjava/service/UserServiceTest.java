@@ -16,10 +16,10 @@ import java.util.List;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 
-public class UserServiceTest extends BaseServiceTest {
+public abstract class UserServiceTest extends BaseServiceTest {
 
     @Autowired
-    private UserService service;
+    protected UserService service;
 
     @Autowired
     private CacheManager cacheManager;
@@ -56,13 +56,6 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void get() throws Exception {
         User user = service.get(USER_ID);
-        assertMatch(user, USER);
-    }
-
-    @Test
-    public void getFetch() throws Exception {
-        User user = service.getFetch(USER_ID);
-        System.out.println(user.getMeals());
         assertMatch(user, USER);
     }
 

@@ -32,6 +32,6 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
     User getByEmail(String email);
 
-    @EntityGraph(value = "User.meals", type = EntityGraph.EntityGraphType.FETCH)
-    User getById(int id);
+    @Query("select u from User u inner join fetch u.meals where u.id=:id")
+    Optional<User> getWithMeal(@Param("id") int id);
 }

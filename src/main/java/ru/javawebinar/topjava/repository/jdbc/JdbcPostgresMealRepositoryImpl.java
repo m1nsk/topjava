@@ -18,7 +18,6 @@ public class JdbcPostgresMealRepositoryImpl extends AbstractJdbcMealRepositoryIm
         super(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
     }
 
-
     @Override
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()

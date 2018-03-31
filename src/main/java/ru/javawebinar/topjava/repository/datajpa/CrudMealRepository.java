@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
@@ -25,4 +26,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     List<Meal> findAllBetweenDates(@Param("start_date") LocalDateTime startDate,
                                    @Param("end_date") LocalDateTime endDate,
                                    @Param("user_id") int userId);
+
+    @Query("select m from Meal m inner join fetch m.user where m.id=:id")
+    Optional<Meal> getWithUser(@Param("id") int id);
 }

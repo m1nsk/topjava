@@ -13,7 +13,7 @@ public interface UserRepository {
     // null if not found
     User get(int id);
 
-    default User getFetch(int id) {
+    default User getWithMeal(int id) {
         return null;
     };
 
