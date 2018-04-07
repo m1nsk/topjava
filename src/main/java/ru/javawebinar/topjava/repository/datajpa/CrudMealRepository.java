@@ -28,5 +28,5 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
                                    @Param("user_id") int userId);
 
     @Query("select m from Meal m inner join fetch m.user where m.id=:id")
-    Optional<Meal> getWithUser(@Param("id") int id);
+    Meal getWithUser(@Param("id") int id);
 }
