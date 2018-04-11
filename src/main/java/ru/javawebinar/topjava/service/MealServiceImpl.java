@@ -14,6 +14,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class MealServiceImpl implements MealService {
 
+    @Autowired
     private final MealRepository repository;
 
     @Autowired
@@ -24,6 +25,11 @@ public class MealServiceImpl implements MealService {
     @Override
     public Meal get(int id, int userId) {
         return checkNotFoundWithId(repository.get(id, userId), id);
+    }
+
+    @Override
+    public Meal getWithUser(int id, int userId) {
+        return checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }
 
     @Override
